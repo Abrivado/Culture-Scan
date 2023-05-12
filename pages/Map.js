@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 
 const MapPage = () => {
   const [hasLocationPermission, setLocationPermission] = useState(null);
-  const [showLocationMessage, setShowLocationMessage] = useState(false);
   const [initialRegion, setInitialRegion] = useState(null);
 
   useEffect(() => {
@@ -15,13 +14,6 @@ const MapPage = () => {
   const checkLocationPermission = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
     setLocationPermission(status === 'granted');
-    setShowLocationMessage(status !== 'granted');
-  };
-
-  const handleLocationPermission = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    setLocationPermission(status === 'granted');
-    setShowLocationMessage(false);
   };
 
   useEffect(() => {
@@ -39,7 +31,6 @@ const MapPage = () => {
 
   return (
     <View style={styles.container}>
-      {showLocationMessage}
       {initialRegion && (
         <MapView style={styles.map} initialRegion={initialRegion}>
           {/* Ajoutez ici les marqueurs pour les points d'intérêt */}
@@ -57,7 +48,6 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
-
 });
 
 export default MapPage;
